@@ -4,12 +4,14 @@ import handleZodError from '../error/handleZodError';
 import { TErrorMessages } from '../interface/error';
 import handleValidationError from '../error/handleValidationError';
 import handleCastError from '../error/handleCastError';
+import handleDuplicateError from '../error/handleDuplicateError';
+import AppError from '../error/AppError';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars
 const handleError = (err: any,req: Request,res: Response,next: NextFunction,
 ) => {
   let message = 'Something Went Wrong';
-  let statusCode = 500;
+  let statusCode = 400;
   let errorMessages: TErrorMessages = [
     {
       path: '',
@@ -34,11 +36,32 @@ const handleError = (err: any,req: Request,res: Response,next: NextFunction,
     message = simplifiedError.message;
     errorMessages = simplifiedError.errorMessages;
   }
-  else if (err.status == '11000') {
-    const simplifiedError = handleCastError(err);
+  else if (err.code == '11000') {
+    const simplifiedError = handleDuplicateError(err);
     statusCode = simplifiedError.statusCode;
     message = simplifiedError.message;
     errorMessages = simplifiedError.errorMessages;
+  }
+  else if(err instanceof AppError){
+    statusCode = err?.statusCode;
+    message = err?.message;
+    errorMessages = [
+      {
+        path:"",
+        message:err?.message
+      }
+    ];
+  }
+
+  else if(err instanceof Error){
+    statusCode = 400;
+    message = err?.message;
+    errorMessages = [
+      {
+        path:"",
+        message:err?.message
+      }
+    ];
   }
 
   return res.status(statusCode).json({
@@ -48,6 +71,7 @@ const handleError = (err: any,req: Request,res: Response,next: NextFunction,
     stack: err?.stack ? err?.stack : null,
     err: err,
   });
-};
+  
+  }
 
 export default handleError;
