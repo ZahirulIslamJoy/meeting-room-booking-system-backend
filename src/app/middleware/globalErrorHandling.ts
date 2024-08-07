@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from 'express';
 import { ZodError } from 'zod';
 import handleZodError from '../error/handleZodError';
 import { TErrorMessages } from '../interface/error';
+import handleValidationError from '../error/handleValidationError';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars
 const handleError = (
@@ -25,7 +26,10 @@ const handleError = (
     message = simplifiedError.message;
     errorMessages = simplifiedError.errorMessages;
   } else if (err.name == 'ValidationError') {
-    console.log(err);
+    const simplifiedError = handleValidationError(err);
+    statusCode = simplifiedError.statusCode;
+    message = simplifiedError.message;
+    errorMessages = simplifiedError.errorMessages;
   }
   return res.status(statusCode).json({
     success: false,
