@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Request, Response } from "express"
+import { NextFunction, Request, Response } from "express"
 import { UserService } from "./user.service"
+import catchAsync from "../../utils/catchAsync"
 
-const createUser = async(req : Request, res : Response)=>{
-    try{
+const createUser = catchAsync(async(req : Request, res : Response , next :NextFunction)=>{
         const result : any = await UserService.createUserIntoDB(req.body);
         const {_doc} = result
         const {password , ...remaining} = _doc
@@ -12,11 +12,8 @@ const createUser = async(req : Request, res : Response)=>{
             success : true ,
             data : remaining
         })
-    }
-    catch(err){
-        console.log(err)
-    }
-}
+    })
+   
 
 
 
