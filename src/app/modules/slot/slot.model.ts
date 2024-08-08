@@ -17,7 +17,10 @@ const bookingSchema = new Schema<TSlot>({
     type: String,
     required: true,
   },
-  isBooked: { type: Boolean, default: false },
+  isBooked: { 
+    type: Boolean,
+     default: false
+    },
 });
 
-export const Slot = model<TSlot>("user",bookingSchema)
+export const Slot = model<TSlot>("slot",bookingSchema)
