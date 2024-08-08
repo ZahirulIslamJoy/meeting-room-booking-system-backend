@@ -1,4 +1,4 @@
-type Role= "admin" | "user"
+export type Role= "admin" | "user"
 
 
 export type TUser = {
