@@ -10,7 +10,7 @@ const routes = [
         route : AuthRoutes
     },
     {
-        path : "/room",
+        path : "/rooms",
         route : RoomRoutes
     }
 ]
