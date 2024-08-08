@@ -25,6 +25,7 @@ router.get(
 
   router.put(
     '/:id',
+    auth(USER_ROLE.admin),
     validateRequest(RoomValidation.updateRoomValidationSchema),
     RoomControllers.updateRoom,
   )
