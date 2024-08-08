@@ -69,7 +69,6 @@ const handleError = (err: any,req: Request,res: Response,next: NextFunction,
     message: message,
     errorMessages,
     stack: err?.stack ? err?.stack : null,
-    err: err,
   });
   
   }

@@ -20,8 +20,10 @@ const signUpValidationSchema = z.object({
 })
 
 const loginValidationSchema = z.object({
+   body:z.object({
     email:z.string().email("Invalid Email Address"),
     password:z.string()
+   })
 })
 
 

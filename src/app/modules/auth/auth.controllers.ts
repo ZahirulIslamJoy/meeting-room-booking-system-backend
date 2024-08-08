@@ -19,12 +19,16 @@ const signUp = catchAsync(async(req : Request, res : Response )=>{
     })
 
     const login = catchAsync(async(req : Request, res : Response)=>{
-        const result  = await AuthService.loginUser(req.body);
+        const result : any  = await AuthService.loginUser(req.body);
+        const {token, user} = result;
+        const {_doc} = user
+        const {password , ...remaining} = _doc
         sendResponse(res,{
             success: true,
             statusCode : httpStatus.OK ,
             message :"User logged in successfully",
-            data : result
+            token:token,
+            data : remaining
         })
     })
 

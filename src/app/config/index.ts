@@ -7,4 +7,5 @@ export default {
   port: process.env.PORT,
   databaseUrl: process.env.DATABASE_URL,
   salt:process.env.SALT,
+  accessToken:process.env.JWT_ACCESS,
 };
