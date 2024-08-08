@@ -16,9 +16,27 @@ const createSlotIntoDB = async (payload:TSlot)=>{
     return result 
 }
 
+  const  getSlotFromDB =async (query : Record<string , unknown>)=>{
+    const {date , roomId}= query 
+    if(roomId && date ){
+        const  result = await Slot.find({room:roomId , date: date , isBooked:false})
+        return result ;
+      }
+    if(date){
+      const  result = await Slot.find({date:date , isBooked:false})
+      return result ;
+    }
+    if(roomId){
+        const  result = await Slot.find({room:roomId , isBooked:false})
+        return result ;
+      }
+      const result = await Slot.find({isBooked:false})
+    return result
+  }
+
 
 
 
 export const SlotService={
-    createSlotIntoDB
+    createSlotIntoDB , getSlotFromDB
 }
