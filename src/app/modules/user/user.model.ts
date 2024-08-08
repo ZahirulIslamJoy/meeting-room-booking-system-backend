@@ -28,9 +28,10 @@ export const userSchema = new Schema<TUser>({
   role: {
     type: String,
     enum: ["admin" , "user"],
+    required: true,
   },
  
-});
+},);
 //hashing the password 
 userSchema.pre("save", async function(next){
     // eslint-disable-next-line @typescript-eslint/no-this-alias
