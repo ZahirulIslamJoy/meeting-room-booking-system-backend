@@ -19,6 +19,10 @@ export const roomSchema = new Schema<TRoom>({
     type: Number,
     required: true,
   },
+  pricePerSlot: {
+    type: Number,
+    required: true,
+  },
   amenities: {
     type:[String],
     required: true,

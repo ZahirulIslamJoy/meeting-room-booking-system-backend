@@ -23,5 +23,11 @@ router.get(
     RoomControllers.getAllRoom,
   )
 
+  router.put(
+    '/:id',
+    validateRequest(RoomValidation.updateRoomValidationSchema),
+    RoomControllers.updateRoom,
+  )
+
 
 export const RoomRoutes = router;
