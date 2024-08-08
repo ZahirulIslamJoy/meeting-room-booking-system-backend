@@ -1,9 +1,9 @@
 import catchAsync from '../utils/catchAsync';
-import authError from '../error/AuthError';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import config from '../config';
 import { User } from '../modules/user/user.model';
 import { Role } from '../modules/user/user.interface';
+import authError from '../error/authError';
 
 const auth = (...accessRole : Role[]) => {
   return catchAsync(async (req, res, next) => {
