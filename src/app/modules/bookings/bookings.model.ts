@@ -21,6 +21,19 @@ const bookingSchema = new Schema<TBooking>({
     ref: 'user',
     required: true,
   },
+  totalAmount: {
+    type:Number,
+    required: true,
+  },
+  isConfirmed: {
+    type:String,
+    enum:["unconfirmed","confirmed"],
+    required: true,
+  },
+  isDeleted:{
+    type:Boolean,
+    default:false
+  }
 });
 
 export const Booking = model<TBooking>('booking', bookingSchema);
