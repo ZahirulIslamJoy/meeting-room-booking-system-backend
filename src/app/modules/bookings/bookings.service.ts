@@ -37,72 +37,85 @@ const createBookingsIntoDB = async (payload: TBooking) => {
   }
   const session = await mongoose.startSession();
   //update the status of the bookings
-   try {
+  try {
     session.startTransaction();
-   const updateResult= await Slot.updateMany(
+    const updateResult = await Slot.updateMany(
       { _id: { $in: payload.slots } },
-      { $set: { isBooked: true }},
-      {session}
+      { $set: { isBooked: true } },
+      { session },
     );
 
-    if(!updateResult){
-      throw new AppError(httpStatus.BAD_REQUEST , "Slot is not booked")
+    if (!updateResult) {
+      throw new AppError(httpStatus.BAD_REQUEST, 'Slot is not booked');
     }
 
-  const totalAmount = Number((room.pricePerSlot * payload.slots.length).toFixed(2));
-  const isConfirmed = 'unconfirmed';
-  //    payload = {totalAmount , isConfirmed , isDeleted , ...payload }
-  payload.totalAmount = totalAmount
-  payload.isConfirmed = isConfirmed;
-  //transaction and roolback 
-  const booking = await Booking.create([payload], { session });
-  
-  if(!booking){
-    throw new AppError(httpStatus.BAD_REQUEST , "Slot is not booked")
-  }
-  const bookingResult = await Booking.findById(booking[0]._id)
-  .session(session)
-  .populate({ path: 'slots' })
-  .populate({ path: 'room' })
-  .populate({ path: 'user' })
+    const totalAmount = Number(
+      (room.pricePerSlot * payload.slots.length).toFixed(2),
+    );
+    const isConfirmed = 'unconfirmed';
+    //    payload = {totalAmount , isConfirmed , isDeleted , ...payload }
+    payload.totalAmount = totalAmount;
+    payload.isConfirmed = isConfirmed;
+    //transaction and roolback
+    const booking = await Booking.create([payload], { session });
 
-  await session.commitTransaction();
-  await session.endSession();
-  return bookingResult;
-   }
-   catch(err){
+    if (!booking) {
+      throw new AppError(httpStatus.BAD_REQUEST, 'Slot is not booked');
+    }
+    const bookingResult = await Booking.findById(booking[0]._id)
+      .session(session)
+      .populate({ path: 'slots' })
+      .populate({ path: 'room' })
+      .populate({ path: 'user' });
+
+    await session.commitTransaction();
+    await session.endSession();
+    return bookingResult;
+  } catch (err) {
     await session.abortTransaction();
     await session.endSession();
-    throw new AppError(httpStatus.BAD_REQUEST , "Slot is not booked")
-   }
+    throw new AppError(httpStatus.BAD_REQUEST, 'Slot is not booked');
+  }
 };
 
-const getAllBookingsFromDB =async ()=>{
-  const result = await Booking.find({isDeleted : false}).populate("slots").populate("room").populate("user")
-  return result
-}
+const getAllBookingsFromDB = async () => {
+  const result = await Booking.find({ isDeleted: false })
+    .populate('slots')
+    .populate('room')
+    .populate('user');
+  return result;
+};
 
-const getSpecificUserBookingsFromDB =async (jwtPayload : JwtPayload)=>{
+const getSpecificUserBookingsFromDB = async (jwtPayload: JwtPayload) => {
   const userEmail = jwtPayload.email;
-  const user = await  User.findOne({email: userEmail})
-  const result = await Booking.find({ user  :  user?._id}).populate("slots").populate("room").populate("user")
-  return result
-}
+  const user = await User.findOne({ email: userEmail });
+  const result = await Booking.find({ user: user?._id })
+    .populate('slots')
+    .populate('room')
+    .populate('user');
+  return result;
+};
 
-const updateBookingsIntoDB = async (id:string, payload : Partial<TBooking>)=>{
-  const booking = await Booking.findById(id) ;
-  const isDeleted= booking?.isDeleted;
-  if(isDeleted){
-      throw new AppError(httpStatus.BAD_REQUEST,"This room is deleted , Cant Update")
+const updateBookingsIntoDB = async (id: string, payload: Partial<TBooking>) => {
+  if (!("isDeleted" in payload)) {
+    const booking = await Booking.findById(id);
+    const isDeleted = booking?.isDeleted;
+    if (isDeleted) {
+      throw new AppError(
+        httpStatus.BAD_REQUEST,
+        'This room is deleted , Cant Update',
+      );
+    }
   }
-  const result = await Booking.findByIdAndUpdate(id, payload , {
-      new:true
-  })
-  return result ;
-}
-
-
+  const result = await Booking.findByIdAndUpdate(id, payload, {
+    new: true,
+  });
+  return result;
+};
 
 export const BookService = {
-  createBookingsIntoDB, getAllBookingsFromDB , getSpecificUserBookingsFromDB , updateBookingsIntoDB
+  createBookingsIntoDB,
+  getAllBookingsFromDB,
+  getSpecificUserBookingsFromDB,
+  updateBookingsIntoDB,
 };

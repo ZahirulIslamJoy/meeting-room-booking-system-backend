@@ -23,10 +23,12 @@ const getAllRoomFromDB = async ()=>{
 }
 
 const updateRoomIntoDB = async (id:string, payload : Partial<TRoom>)=>{
-    const room = await Room.findById(id) ;
-    const isDeleted= room?.isDeleted;
-    if(isDeleted){
-        throw new AppError(httpStatus.BAD_REQUEST,"This room is deleted , Cant Update")
+    if (!("isDeleted" in payload)){
+        const room = await Room.findById(id) ;
+        const isDeleted= room?.isDeleted;
+        if(isDeleted){
+            throw new AppError(httpStatus.BAD_REQUEST,"This room is deleted , Cant Update")
+        }
     }
     const result = await Room.findByIdAndUpdate(id, payload , {
         new:true
