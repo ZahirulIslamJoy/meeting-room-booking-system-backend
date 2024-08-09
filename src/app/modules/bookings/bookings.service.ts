@@ -5,6 +5,7 @@ import { TBooking } from './bookings.interface';
 import { User } from '../user/user.model';
 import { Slot } from '../slot/slot.model';
 import { Booking } from './bookings.model';
+import mongoose from 'mongoose';
 
 const createBookingsIntoDB = async (payload: TBooking) => {
   //check if  the user exists or not
@@ -33,12 +34,19 @@ const createBookingsIntoDB = async (payload: TBooking) => {
       'A slot is already booked from these slots or misusage of slot booking date',
     );
   }
-  //Todo : transaction
+  const session = await mongoose.startSession();
   //update the status of the bookings
-    await Slot.updateMany(
+   try {
+    session.startTransaction();
+   const updateResult= await Slot.updateMany(
       { _id: { $in: payload.slots } },
-      { $set: { isBooked: true } },
+      { $set: { isBooked: true }},
+      {session}
     );
+
+    if(!updateResult){
+      throw new AppError(httpStatus.BAD_REQUEST , "Slot is not booked")
+    }
 
   const totalAmount = Number((room.pricePerSlot * payload.slots.length).toFixed(2));
   const isConfirmed = 'unconfirmed';
@@ -46,8 +54,26 @@ const createBookingsIntoDB = async (payload: TBooking) => {
   payload.totalAmount = totalAmount
   payload.isConfirmed = isConfirmed;
   //transaction and roolback 
-  const result =  (await (await (await Booking.create(payload)).populate("slots")).populate("room")).populate("user")
-  return result;
+  const booking = await Booking.create([payload], { session });
+  
+  if(!booking){
+    throw new AppError(httpStatus.BAD_REQUEST , "Slot is not booked")
+  }
+  const bookingResult = await Booking.findById(booking[0]._id)
+  .session(session)
+  .populate({ path: 'slots' })
+  .populate({ path: 'room' })
+  .populate({ path: 'user' })
+
+  await session.commitTransaction();
+  await session.endSession();
+  return bookingResult;
+   }
+   catch(err){
+    await session.abortTransaction();
+    await session.endSession();
+    throw new AppError(httpStatus.BAD_REQUEST , "Slot is not booked")
+   }
 };
 
 export const BookService = {
