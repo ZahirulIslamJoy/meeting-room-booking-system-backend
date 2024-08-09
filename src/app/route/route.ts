@@ -20,7 +20,7 @@ const routes = [
         route : SlotRoutes
     },
     {
-        path : "/bookings",
+        path : "/",
         route : BookingRoutes
     }
 ]

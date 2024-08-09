@@ -17,7 +17,7 @@ const createSlot = catchAsync(async (req: Request, res: Response) => {
 const getSlot = catchAsync(async (req: Request, res: Response) => {
   const result = await SlotService.getSlotFromDB(req.query);
   if (result.length == 0) {
-    sendResponse(res, {
+   return sendResponse(res, {
       success: false,
       statusCode: httpStatus.NOT_FOUND,
       message: 'No Data Found',

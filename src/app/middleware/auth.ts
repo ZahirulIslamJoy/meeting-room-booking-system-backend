@@ -7,10 +7,11 @@ import authError from '../error/authError';
 
 const auth = (...accessRole : Role[]) => {
   return catchAsync(async (req, res, next) => {
-    const tokenWithBearer = req.headers.authorization;
+    const tokenWithBearer = req?.headers?.authorization;
     if(!tokenWithBearer){
         return authError(res)
     }
+
     const token = tokenWithBearer.split(" ")[1]
     const decoded = jwt.verify(token , config.accessToken as string) as JwtPayload
     const jwtEmail = decoded?.email;
@@ -19,7 +20,6 @@ const auth = (...accessRole : Role[]) => {
     if(!user){
         return authError(res)
     }
-
     //checking the role
     if (accessRole.length == 0){
         return authError(res)

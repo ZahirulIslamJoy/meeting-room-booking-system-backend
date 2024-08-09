@@ -17,7 +17,7 @@ const createBookings = catchAsync(async (req: Request, res: Response) => {
 const getAllBookings = catchAsync(async (req: Request, res: Response) => {
   const result = await BookService.getAllBookingsFromDB();
   if (result.length == 0) {
-    sendResponse(res, {
+   return sendResponse(res, {
       success: false,
       statusCode: httpStatus.NOT_FOUND,
       message: 'No Data Found',
@@ -32,7 +32,27 @@ const getAllBookings = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const getSpecificUserBookings = catchAsync(async (req: Request, res: Response) => {
+  const result = await BookService.getSpecificUserBookingsFromDB(req?.user);
+  if (result.length == 0) {
+   return sendResponse(res, {
+      success: false,
+      statusCode: httpStatus.NOT_FOUND,
+      message: 'No Data Found',
+      data: result,
+    });
+  }
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: 'User bookings retrieved successfully',
+    data: result,
+  });
+});
+
+
 export const BookingControllers = {
   createBookings,
   getAllBookings,
+  getSpecificUserBookings
 };

@@ -6,6 +6,7 @@ import { User } from '../user/user.model';
 import { Slot } from '../slot/slot.model';
 import { Booking } from './bookings.model';
 import mongoose from 'mongoose';
+import { JwtPayload } from 'jsonwebtoken';
 
 const createBookingsIntoDB = async (payload: TBooking) => {
   //check if  the user exists or not
@@ -81,10 +82,15 @@ const getAllBookingsFromDB =async ()=>{
   return result
 }
 
-
+const getSpecificUserBookingsFromDB =async (jwtPayload : JwtPayload)=>{
+  const userEmail = jwtPayload.email;
+  const user = await  User.findOne({email: userEmail})
+  const result = await Booking.find({ user  :  user?._id}).populate("slots").populate("room").populate("user")
+  return result
+}
 
 
 
 export const BookService = {
-  createBookingsIntoDB, getAllBookingsFromDB
+  createBookingsIntoDB, getAllBookingsFromDB , getSpecificUserBookingsFromDB
 };

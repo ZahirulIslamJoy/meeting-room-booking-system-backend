@@ -7,17 +7,24 @@ import { BookingControllers } from './bookings.controllers';
 
 const router = express.Router();
 router.post(
-  '/',
+  '/bookings',
   auth(USER_ROLE.user),
   validateRequest(BookingValidation.createBookingSchema),
   BookingControllers.createBookings,
 );
 
 router.get(
-  '/',
+  '/bookings',
   auth(USER_ROLE.admin),
   BookingControllers.getAllBookings,
 );
+
+router.get(
+  '/my-bookings',
+  auth(USER_ROLE.user),
+  BookingControllers.getSpecificUserBookings,
+);
+
 
 
 export const BookingRoutes = router;

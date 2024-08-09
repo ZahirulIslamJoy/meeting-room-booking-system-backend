@@ -28,7 +28,7 @@ const createRoom = catchAsync(async(req : Request, res : Response )=>{
     const getAllRoom = catchAsync(async(req : Request, res : Response )=>{
         const result= await RoomService.getAllRoomFromDB()
         if(result.length == 0){
-            sendResponse(res,{
+           return sendResponse(res,{
                 success: false,
                 statusCode : httpStatus.NOT_FOUND ,
                 message :"No Data Found",
