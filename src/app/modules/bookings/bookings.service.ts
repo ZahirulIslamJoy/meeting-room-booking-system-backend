@@ -8,13 +8,16 @@ import { Booking } from './bookings.model';
 import mongoose from 'mongoose';
 import { JwtPayload } from 'jsonwebtoken';
 
-const createBookingsIntoDB = async (payload: TBooking) => {
+const createBookingsIntoDB = async (payload: TBooking , jwtPayload : JwtPayload) => {
   //check if  the user exists or not
   const user = await User.findById(payload.user);
   if (!user) {
     throw new AppError(httpStatus.BAD_REQUEST, 'Invalid user');
   }
 
+  if(user.email != jwtPayload.email){
+    throw new AppError(httpStatus.UNAUTHORIZED,'You have no access to this route-Provide this users token');
+  }
   //check if Room avaliable with user given id
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const room: any = await Room.findOne({
@@ -97,8 +100,11 @@ const getSpecificUserBookingsFromDB = async (jwtPayload: JwtPayload) => {
 };
 
 const updateBookingsIntoDB = async (id: string, payload: Partial<TBooking>) => {
+  const booking = await Booking.findById(id);
+  if(!booking){
+    throw new AppError(httpStatus.BAD_REQUEST , "Invalid Id")
+  }
   if (!("isDeleted" in payload)) {
-    const booking = await Booking.findById(id);
     const isDeleted = booking?.isDeleted;
     if (isDeleted) {
       throw new AppError(
@@ -114,6 +120,10 @@ const updateBookingsIntoDB = async (id: string, payload: Partial<TBooking>) => {
 };
 
 const deleteBookingFromDB = async (id:string)=>{
+  const booking = await Booking.findById(id);
+  if(!booking){
+    throw new AppError(httpStatus.BAD_REQUEST , "Invalid Id")
+  }
   const result = await Booking.findByIdAndUpdate(id,{isDeleted:true}, {
       new:true
   })

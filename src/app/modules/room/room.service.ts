@@ -29,8 +29,7 @@ const updateRoomIntoDB = async (id:string, payload : Partial<TRoom>)=>{
         throw new AppError (httpStatus.BAD_REQUEST , "Invalid Id")
     }
     if (!("isDeleted" in payload)){
-        const room = await Room.findById(id) ;
-        const isDeleted= room?.isDeleted;
+        const isDeleted= roomExists?.isDeleted;
         if(isDeleted){
             throw new AppError(httpStatus.BAD_REQUEST,"This room is deleted , Cant Update")
         }
