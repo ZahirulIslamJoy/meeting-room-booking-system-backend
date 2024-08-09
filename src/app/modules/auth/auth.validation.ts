@@ -9,7 +9,7 @@ const signUpValidationSchema = z.object({
         password : z.string({
             required_error :"Password is required"
         }),
-        phone: z.number().int().positive("Phone number must be a positive integer"),
+        phone: z.string().regex(/^\d+$/, 'Invalid Phone No. It must be a positive number.'),
         address : z.string({
             required_error :"Password is required"
         }),

@@ -1,3 +1,6 @@
+import { Types } from "mongoose";
+import { Slot } from "./slot.model";
+
 const timeStringToMinutes = (timeString: string) => {
   const [hours, minutes] = timeString.split(':').map(Number);
   return hours * 60 + minutes;
@@ -37,3 +40,20 @@ export const generateSlots = (
   }
   return slots;
 };
+
+
+ export const validateSlot=async(roomId : Types.ObjectId , date : string, startTime : string, endTime : string)=> {
+  const conflictingSlots = await Slot.findOne({
+    room: roomId,
+    date: date, 
+    $or: [
+      {
+        startTime: { $lt: endTime },
+        endTime: { $gt: startTime },
+      },
+    ],
+  });
+  return conflictingSlots ? true : false;
+}
+
+

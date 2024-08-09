@@ -19,12 +19,12 @@ const loginUser = async (payload:TUser)=>{
     }).select("+password")
    // console.log(user)
     if(!user){
-        throw new AppError(httpStatus.NOT_FOUND,"User Not found")
+        throw new AppError(httpStatus.NOT_FOUND,"Invalid Email Address")
     }
     const hashPassword = user.password ;
     const isValidPassword = await bcrypt.compare(payload.password,hashPassword);
     if(!isValidPassword){
-        throw new AppError(httpStatus.FORBIDDEN ,"Password isnt Valid")
+        throw new AppError(httpStatus.FORBIDDEN ,"Invalid Password")
     }
 
     const jwtPayload = {

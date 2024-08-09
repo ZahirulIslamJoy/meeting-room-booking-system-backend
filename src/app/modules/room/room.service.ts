@@ -23,6 +23,11 @@ const getAllRoomFromDB = async ()=>{
 }
 
 const updateRoomIntoDB = async (id:string, payload : Partial<TRoom>)=>{
+    //check if the room exists or not
+    const roomExists = await Room.findById(id);
+    if(!roomExists){
+        throw new AppError (httpStatus.BAD_REQUEST , "Invalid Id")
+    }
     if (!("isDeleted" in payload)){
         const room = await Room.findById(id) ;
         const isDeleted= room?.isDeleted;
@@ -37,6 +42,10 @@ const updateRoomIntoDB = async (id:string, payload : Partial<TRoom>)=>{
 }
 
 const deleteRoomIntoDB = async (id:string)=>{
+    const roomExists = await Room.findById(id);
+    if(!roomExists){
+        throw new AppError (httpStatus.BAD_REQUEST , "Invalid Id")
+    }
     const result = await Room.findByIdAndUpdate(id,{isDeleted:true}, {
         new:true
     })
