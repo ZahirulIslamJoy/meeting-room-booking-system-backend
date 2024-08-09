@@ -3,6 +3,10 @@
 ## Project Description:
 
 This Project aim to offer co-working spaces for meetings and discussions. To streamline the booking process, i've decided to develop a web application for managing room reservations.
+## Roles:
+1. **Admin**
+2. **User**
+
 
 ## [`Backend Live Link`](coming)
 ## [`Describe Video Of The Project`](coming)
@@ -33,12 +37,11 @@ This Project aim to offer co-working spaces for meetings and discussions. To str
   - Bcrypt
   - Dot Env
   - Http Status
-  -Jwt token
-  -Zod
-  -cors
-  -Prettier
-  -Es Lint
-
+  - Zod
+  - cors
+  - Prettier
+  - Es Lint
+   
 
 ### Installing
 
@@ -777,31 +780,3 @@ tZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_a
 }
 
 ```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-## Roles:
-1. **Admin**
-2. **User**
