@@ -16,7 +16,7 @@ const loginUser = async (payload:TUser)=>{
     //check if the user is Exists or not 
     const user = await User.findOne({
         email:payload.email
-    })
+    }).select("+password")
    // console.log(user)
     if(!user){
         throw new AppError(httpStatus.NOT_FOUND,"User Not found")
