@@ -113,9 +113,18 @@ const updateBookingsIntoDB = async (id: string, payload: Partial<TBooking>) => {
   return result;
 };
 
+const deleteBookingFromDB = async (id:string)=>{
+  const result = await Booking.findByIdAndUpdate(id,{isDeleted:true}, {
+      new:true
+  })
+  return result ;
+}
+
+
 export const BookService = {
   createBookingsIntoDB,
   getAllBookingsFromDB,
   getSpecificUserBookingsFromDB,
   updateBookingsIntoDB,
+  deleteBookingFromDB
 };

@@ -32,6 +32,12 @@ router.put(
   BookingControllers.updateBookings,
 );
 
+router.delete(
+  '/bookings/:id',
+  auth(USER_ROLE.admin),
+  BookingControllers.deleteBookings,
+);
+
 
 
 export const BookingRoutes = router;
