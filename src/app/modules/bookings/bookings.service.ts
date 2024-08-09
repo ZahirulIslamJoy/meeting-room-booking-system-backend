@@ -89,8 +89,20 @@ const getSpecificUserBookingsFromDB =async (jwtPayload : JwtPayload)=>{
   return result
 }
 
+const updateBookingsIntoDB = async (id:string, payload : Partial<TBooking>)=>{
+  const booking = await Booking.findById(id) ;
+  const isDeleted= booking?.isDeleted;
+  if(isDeleted){
+      throw new AppError(httpStatus.BAD_REQUEST,"This room is deleted , Cant Update")
+  }
+  const result = await Booking.findByIdAndUpdate(id, payload , {
+      new:true
+  })
+  return result ;
+}
+
 
 
 export const BookService = {
-  createBookingsIntoDB, getAllBookingsFromDB , getSpecificUserBookingsFromDB
+  createBookingsIntoDB, getAllBookingsFromDB , getSpecificUserBookingsFromDB , updateBookingsIntoDB
 };

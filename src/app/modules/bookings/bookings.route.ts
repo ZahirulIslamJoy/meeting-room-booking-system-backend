@@ -25,6 +25,13 @@ router.get(
   BookingControllers.getSpecificUserBookings,
 );
 
+router.put(
+  '/bookings/:id',
+  auth(USER_ROLE.admin),
+  validateRequest(BookingValidation.updateBookingsSchema),
+  BookingControllers.updateBookings,
+);
+
 
 
 export const BookingRoutes = router;
