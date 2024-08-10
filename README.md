@@ -8,9 +8,8 @@ This Project aim to offer co-working spaces for meetings and discussions. To str
 2. **User**
 
 
-## <a href="https://meeting-room-booking-system-omega.vercel.app/" style="color: #3498db; font-size: 20px; font-weight: bold;">Backend Live Link</a>
+## <a href="https://meeting-room-booking-system-omega.vercel.app/" style="color: #3498db; font-size: 20px; font-weight: bold;">Backend Live Link Home Route</a>
 
-## [`Describe Video Of The Project`](coming)
 
 ## Backend Test Account Credentials
 
@@ -87,7 +86,7 @@ As the development progresses, I tried to robust validation and error handling m
 ### User Routes
 
 1. **User Sign Up**
--   _*Route:*_ `/api/auth/signup` (POST)
+-   _*Route:*_ `https://meeting-room-booking-system-omega.vercel.app/api/auth/signup` (POST)
 -   **Request Body:**
 
 ```json
@@ -122,7 +121,7 @@ As the development progresses, I tried to robust validation and error handling m
 
 **2\. User Login**
 
--   _*Route:*_ `/api/auth/login` (POST)
+-   _*Route:*_ `https://meeting-room-booking-system-omega.vercel.app/api/auth/login` (POST)
 -   **Request Body:**
 
 ```json
@@ -159,7 +158,7 @@ As the development progresses, I tried to robust validation and error handling m
 
 **3\. Create Room (Only Accessible by Admin)**
 
--   _*Route:*_ `/api/rooms` (POST)
+-   _*Route:*_ `https://meeting-room-booking-system-omega.vercel.app/api/rooms` (POST)
 -   **Request Headers:**
 
 ```plain
@@ -207,7 +206,7 @@ tZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_a
 
 **4\. Get a Room**
 
--    _*Route:*_ `/api/rooms/:id` (GET)
+-    _*Route:*_ `https://meeting-room-booking-system-omega.vercel.app/api/rooms/:id` (GET)
 -    _*Response:*_
 
 ```json
@@ -232,7 +231,7 @@ tZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_a
 
 **5\. Get All Rooms**
 
--    _*Route:*_ `/api/rooms` (GET)
+-    _*Route:*_ `https://meeting-room-booking-system-omega.vercel.app/api/rooms` (GET)
 -    **Response:**
 
 ```json
@@ -270,7 +269,7 @@ tZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_a
 
 **6\. Update Room (Only Accessible by Admin)**
 
--    _*Route:*_ `/api/rooms/:id` (PUT)
+-    _*Route:*_ `https://meeting-room-booking-system-omega.vercel.app/api/rooms/:id` (PUT)
 -   **Request Headers:**
 
 ```plain
@@ -310,7 +309,7 @@ tZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_a
 
 **7\. Delete a Room (Soft Delete, Only Accessible by Admin)**
 
--   _*Route:*_ `/api/rooms/:id` (DELETE)
+-   _*Route:*_ `https://meeting-room-booking-system-omega.vercel.app/api/rooms/:id` (DELETE)
 -   **Request Headers:**
 
 ```plain
@@ -348,7 +347,7 @@ tZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_a
 
 8\. **Create Slot (Only Accessible by Admin)**
 
--   _*Route:*_ `/api/slots`(**POST**)
+-   _*Route:*_ `https://meeting-room-booking-system-omega.vercel.app/api/slots`(**POST**)
 
 **Request Headers:**
 
@@ -425,7 +424,7 @@ tZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_a
 ``` 
 **9\. Get available slots**
 
-**Route:** `/api/slots/availability`(**GET**)
+**Route:** `https://meeting-room-booking-system-omega.vercel.app/api/slots/availability`(**GET**)
 
 **Query Parameters:**
 
@@ -434,11 +433,11 @@ tZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_a
 If we hit `/api/slots/availability` without any query params then we can get all the slots that are not booked ( isBooked: false)
 **Request endpoint example**
 
-`/api/slots/availability?date=2024-06-15&roomId=60d9c4e4f3b4b544b8b8d1c5`
+`https://meeting-room-booking-system-omega.vercel.app/api/slots/availability?date=2024-06-15&roomId=60d9c4e4f3b4b544b8b8d1c5`
 
 or
 
-`/api/slots/availability`
+`https://meeting-room-booking-system-omega.vercel.app/api/slots/availability`
 
 **Response:**
 
@@ -497,7 +496,7 @@ or
 
 **10\. Create a Booking (Only Accessible by Authenticated User)**
 
--    _*Route:*_ `/api/bookings` (POST)
+-    _*Route:*_ `https://meeting-room-booking-system-omega.vercel.app/api/bookings` (POST)
 -   **Request Headers:**
 
 ```javascript
@@ -574,7 +573,7 @@ tZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_a
 
 **11\. Get All Bookings (Only Accessible by Admin)**
 
--   _*Route:*_ `/api/bookings` (GET)
+-   _*Route:*_ `https://meeting-room-booking-system-omega.vercel.app/api/bookings` (GET)
 -   **Request Headers:**
 
 ```javascript
@@ -644,7 +643,7 @@ tZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_a
 
 **12\. Get User's Bookings (Only Accessible by Authenticated User)**
 
--   _*Route:*_ `/api/my-bookings`(**GET**)
+-   _*Route:*_ `https://meeting-room-booking-system-omega.vercel.app/api/my-bookings`(**GET**)
 -   **Request Headers:**
 
 ```javascript
@@ -707,7 +706,7 @@ tZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_a
 
 **13\. Update Booking (Only Accessible by Admin)**
 
--   _*Route:*_ `/api/bookings/:id` (PUT)
+-   _*Route:*_ `https://meeting-room-booking-system-omega.vercel.app/api/bookings/:id` (PUT)
 -   **Request Headers:**
 
 ```javascript
@@ -751,7 +750,7 @@ tZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_a
 
 **14\. Delete Booking (Soft Delete, Only Accessible by Admin)**
 
--   _*Route:*_ `/api/bookings/:id` (DELETE)
+-   _*Route:*_ `https://meeting-room-booking-system-omega.vercel.app/api/bookings/:id` (DELETE)
 -   **Request Headers:**
 
 ```javascript
